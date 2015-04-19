@@ -111,11 +111,14 @@ public class Main {
 		 * 
 		 */
 		
+		float x = lookingAt[0];
+		float z = lookingAt[2];
+		
 		//rotate x axis
-		lookingAt[0] = (float) ((lookingAt[0] * Math.cos(degrees)) - (lookingAt[2] * Math.sin(degrees)));
+		lookingAt[0] = (float) ((x * Math.cos(degrees)) - (z * Math.sin(degrees)));
 		
 		//rotate z axis
-		lookingAt[2] = (float) ((lookingAt[0] * Math.cos(degrees)) + (lookingAt[2] * Math.sin(degrees)));
+		lookingAt[2] = (float) ((x * Math.cos(degrees)) + (z * Math.sin(degrees)));
 		
 	}
 	
@@ -136,13 +139,16 @@ public class Main {
 			degrees = amount * -1;
 		}
 		
+		float x = lookingAt[0];
+		float y = lookingAt[1];
+		
 		//see nudgeViewSide
 		
 		//rotate x axis
-		lookingAt[0] = (float) ((lookingAt[0] * Math.cos(degrees)) - (lookingAt[1] * Math.sin(degrees)));
+		lookingAt[0] = (float) ((x * Math.cos(degrees)) - (y * Math.sin(degrees)));
 		
 		//rotate y axis
-		lookingAt[1] = (float) ((lookingAt[0] * Math.cos(degrees)) - (lookingAt[1] * Math.sin(degrees)));
+		lookingAt[1] = (float) ((x * Math.cos(degrees)) - (y * Math.sin(degrees)));
 		
 	}
 	
