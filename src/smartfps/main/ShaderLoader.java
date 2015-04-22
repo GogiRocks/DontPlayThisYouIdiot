@@ -15,11 +15,12 @@ public class ShaderLoader {
 		
 		try {
 			
-			BufferedReader fragReader = new BufferedReader(new FileReader(source));
+			BufferedReader reader = new BufferedReader(new FileReader(source));
 			String line;
-			while((line = fragReader.readLine()) != null) {
+			while((line = reader.readLine()) != null) {
 				shaderSource.append(line).append("\n");
 			}
+			reader.close();
 			
 		} catch(IOException e) {
 			e.printStackTrace();
