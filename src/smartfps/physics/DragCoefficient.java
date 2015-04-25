@@ -5,7 +5,6 @@ public enum DragCoefficient {
 	HUMAN(1.2f),
 	SPHERE(0.47);
 	
-	@SuppressWarnings("unused")
 	private double number;
 	
 	DragCoefficient(double number) {
@@ -13,5 +12,7 @@ public enum DragCoefficient {
 		this.number = number;
 		
 	}
+	
+	public double getValue() { return number; }
 	
 }

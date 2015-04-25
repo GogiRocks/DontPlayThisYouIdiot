@@ -7,21 +7,25 @@ public class PhysicsObject {
 	
 	final float airDensity = 1.225f;
 	
-	float dragCoefficient;
-	float crossArea;
-	
-	boolean onGround;
+	public float dragCoefficient;
+	public float crossArea;
 	
 	public Vector3 position;
-	Vector3 velocity;
-	Vector3 acceleration;
+	public Vector3 velocity;
+	public Vector3 acceleration;
 	
-	long mass;
+	public double mass;
 	
-	public void update() {
+	public void updatePhysics() {
 		
 		acceleration = newtonianGravity();
 		velocity = updateSpeed();
+		
+		//change position using velocity
+		//divided by 60 to convert from seconds to frames
+		position.x += (velocity.x / 60);
+		position.y += (velocity.y / 60);
+		position.z += (velocity.z / 60);
 		
 	}
 	
@@ -35,7 +39,7 @@ public class PhysicsObject {
 		
 		float netForce = forceGravity - drag;
 		
-		acceleration.y = -1 * (netForce / this.mass);
+		acceleration.y = (float) (-1 * (netForce / this.mass));
 		
 		acceleration.x = this.acceleration.x;
 		acceleration.z = this.acceleration.z;

@@ -123,4 +123,41 @@ public class Vector3 {
 		
 	}
 	
+	// rotation
+	public static Vector3 rotateX(int degrees, Vector3 vector) {
+		
+		float z = vector.z;
+		float y = vector.y;
+		
+		float z_ = (float) ((z * Math.cos(degrees)) - (y * Math.sin(degrees)));
+		float y_ = (float) ((z * Math.sin(degrees)) + (y * Math.cos(degrees)));
+		
+		return new Vector3(vector.x, y_, z_);
+		
+	}
+	
+	public static Vector3 rotateY(int degrees, Vector3 vector) {
+		
+		float z = vector.z;
+		float x = vector.x;
+		
+		float z_ = (float) ((z * Math.cos(degrees)) - (x * Math.sin(degrees)));
+		float x_ = (float) ((z * Math.sin(degrees)) + (x * Math.cos(degrees)));
+		
+		return new Vector3(x_, vector.y, z_);
+		
+	}
+	
+	public static Vector3 rotateZ(int degrees, Vector3 vector) {
+		
+		float x = vector.z;
+		float y = vector.x;
+		
+		float x_ = (float) ((x * Math.cos(degrees)) - (y * Math.sin(degrees)));
+		float y_ = (float) ((x * Math.sin(degrees)) + (y * Math.cos(degrees)));
+		
+		return new Vector3(x_, y_, vector.z);
+		
+	}
+	
 }
