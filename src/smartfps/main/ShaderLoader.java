@@ -1,6 +1,6 @@
 package smartfps.main;
 
-import static org.lwjgl.opengl.Display.*;
+import static org.lwjgl.glfw.GLFW.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,7 +24,7 @@ public class ShaderLoader {
 			
 		} catch(IOException e) {
 			e.printStackTrace();
-			destroy();
+			glfwDestroyWindow(Main.window);
 			System.exit(0);
 		}
 		

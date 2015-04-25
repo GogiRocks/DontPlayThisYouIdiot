@@ -1,11 +1,10 @@
 package smartfps.player;
 
-public class Player {
+import smartfps.physics.PhysicsObject;
+
+public class Player extends PhysicsObject {
 	
-	//location
-	public float x;
-	public float y;
-	public float z;
+	
 
 }
 

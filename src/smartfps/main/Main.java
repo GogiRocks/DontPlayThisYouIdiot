@@ -1,16 +1,9 @@
 package smartfps.main;
 
-import static org.lwjgl.opengl.Display.*;
-import org.lwjgl.opengl.DisplayMode;
-
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
-import org.lwjgl.input.Mouse;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Controllers;
-
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
+import java.util.concurrent.TimeUnit;
 
 import smartfps.player.Player;
 
@@ -18,61 +11,80 @@ public class Main {
 	
 	/**
 	 * 
-	 * Time between frames
+	 * Time between frames (nanoseconds)
 	 * 
 	 */
-	static int delta;
+	public static int delta;
 	
-	static float[] cameraPosition = {0.5f, 2f, 0f};
+	/**
+	 * 
+	 * Camera Position
+	 * 
+	 */
+	static float[] cameraPosition = {0.0f, 2f, 0f};
 	
-	Player player = new Player();
+	/**
+	 * 
+	 * Player object
+	 * 
+	 */
+	public static Player player = new Player();
+	
+	//window requirements
+	static long monitor = glfwGetPrimaryMonitor();
+	static long window;
+	
+	static State state = State.HOME_SCREEN;
 	
 	public static void main(String[] args) {
 		
-		try {
-			
-			//create window
-			setTitle("Don't Play This You Idiot - SmartFPS");
-			setDisplayMode(new DisplayMode(1920, 1080));
-			create();
-			
-			//create inputs
-			Mouse.create();
-			Keyboard.create();
-			Controllers.create();
-			
-		} catch (LWJGLException e) {
-			e.printStackTrace();
+		//initialize GLFW
+		if (glfwInit() != GL_FALSE ) {
 			System.exit(0);
 		}
+		
+		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+		
+		//create window
+		window = glfwCreateWindow(1920, 1080, "Don't play this you Idiots - SmartFPS", monitor, 0);
+		
+		glfwSetWindowSize(window, 0, 0);
+		
+		glfwShowWindow(window);
 		
 		//OpenGL setup
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ZERO);
 		
 		//loop
-		while(!isCloseRequested()) {
+		while(glfwWindowShouldClose(window) == GL_FALSE) {
 			
 			delta = calculateDelta();
 			
-			Mouse.poll();
-			Keyboard.poll();
-			Controllers.poll();
+			if(state == State.GAME) {
+				
+				glfwPollEvents();
 			
+				cameraPosition[0] = player.position.x;
+				cameraPosition[1] = player.position.y + 2;
+				cameraPosition[2] = player.position.z;
+				
+				gameLoop();
+				
+			}
 			
-			
-			update();
 			sync(60);
 			
 		}
 		
-		destroy();
+		glfwDestroyWindow(window);
 
 	}
 	
 	static int calculateDelta() {
 		
-		long time = getTime();
+		long time = System.nanoTime();
 		long lastFrame = 0;
 		delta = (int) (time - lastFrame);
 		lastFrame = time;
@@ -81,8 +93,33 @@ public class Main {
 		
 	}
 	
-	static long getTime() {
-		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	public static void sync(int framerate) {
+		
+		//get framerate in milliseconds
+		float time = (1 / framerate) * 1000;
+		
+		//wait the correct time
+		try {
+			
+			TimeUnit.MILLISECONDS.sleep((long) (delta - time));
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private static void gameLoop() {
+		
+		
+		
+	}
+	
+	enum State {
+		
+		GAME,
+		HOME_SCREEN;
+		
 	}
 	
 }
