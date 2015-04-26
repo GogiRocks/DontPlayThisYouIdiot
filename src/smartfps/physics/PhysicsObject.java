@@ -1,7 +1,7 @@
 package smartfps.physics;
 
 import smartfps.main.Main;
-import smartfps.main.Vector3;
+import smartfps.main.math.Vector3;
 
 public class PhysicsObject {
 	

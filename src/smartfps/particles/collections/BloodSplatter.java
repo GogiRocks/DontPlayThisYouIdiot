@@ -1,7 +1,7 @@
 package smartfps.particles.collections;
 
-import smartfps.main.Vector3;
-import smartfps.main.Random;
+import smartfps.main.math.Random;
+import smartfps.main.math.Vector3;
 import smartfps.particles.Particle;
 
 public class BloodSplatter {

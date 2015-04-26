@@ -1,4 +1,4 @@
-package smartfps.main;
+package smartfps.main.math;
 
 public class Random {
 	

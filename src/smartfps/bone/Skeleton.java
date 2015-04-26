@@ -1,5 +1,7 @@
 package smartfps.bone;
 
+import smartfps.main.math.Vector3;
+
 public class Skeleton {
 	
 	int bonesNum;
@@ -13,16 +15,22 @@ public class Skeleton {
 		
 	}
 	
-	public void addChild(short bone, float x, float  y, float z) {
+	/**
+	 * 
+	 * @param bone
+	 * @param x End of bone's x
+	 * @param y End of bones
+	 * @param z
+	 */
+	public void addChild(short bone, Vector3 position) {
 		
 		bonesNum++;
 		
 		bones[bonesNum] = new Bone();
 		parentNum[bonesNum] = bone;
 		
-		bones[bonesNum].x1 = x;
-		bones[bonesNum].y1 = y;
-		bones[bonesNum].z1 = z;
+		bones[bonesNum]._1 = bones[parentNum[bone]]._2;
+		bones[bonesNum]._2 = position;
 		
 	}
 	

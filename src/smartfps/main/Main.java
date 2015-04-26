@@ -21,7 +21,7 @@ public class Main {
 	 * Camera Position
 	 * 
 	 */
-	static float[] cameraPosition = {0.0f, 2f, 0f};
+	static float[] cameraPosition;
 	
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class Main {
 	public static Player player = new Player();
 	
 	//window requirements
-	static long monitor = glfwGetPrimaryMonitor();
+	static final long monitor = glfwGetPrimaryMonitor();
 	static long window;
 	
 	static State state = State.HOME_SCREEN;
