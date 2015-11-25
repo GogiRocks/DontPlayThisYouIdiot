@@ -3,22 +3,21 @@ package smartfps.main;
 import static org.lwjgl.glfw.GLFW.*;
 
 import java.io.BufferedReader;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ShaderLoader {
+public class CL_Loader {
 	
-	public static StringBuilder getShader(String source) {
+	public static String getCL(String source) {
 		
-		StringBuilder shaderSource = new StringBuilder();
+		StringBuilder clSource = new StringBuilder();
 		
 		try {
 			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(ShaderLoader.class.getResourceAsStream(source)));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(CL_Loader.class.getResourceAsStream(source)));
 			String line;
 			while((line = reader.readLine()) != null) {
-				shaderSource.append(line).append("\n");
+				clSource.append(line);
 			}
 			reader.close();
 			
@@ -28,7 +27,7 @@ public class ShaderLoader {
 			System.exit(0);
 		}
 		
-		return shaderSource;
+		return clSource.toString();
 		
 	}
 

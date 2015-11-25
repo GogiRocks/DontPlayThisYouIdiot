@@ -17,10 +17,10 @@ public class Skeleton {
 	
 	/**
 	 * 
-	 * @param bone
-	 * @param x End of bone's x
-	 * @param y End of bones
-	 * @param z
+	 * Add a child bone 
+	 * 
+	 * @param bone Parent index
+	 * @param position Vector3 of positional value
 	 */
 	public void addChild(short bone, Vector3 position) {
 		
@@ -41,6 +41,12 @@ public class Skeleton {
 			bones[i].update(bones[parentNum[i]]);
 			
 		}
+		
+	}
+	
+	public void changeBone(short bone, Vector3 change) {
+		
+		bones[bone]._2 = Vector3.add(bones[bone]._2, change);
 		
 	}
 

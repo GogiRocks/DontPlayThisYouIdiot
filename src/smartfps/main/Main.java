@@ -4,14 +4,20 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.util.concurrent.TimeUnit;
+import java.nio.DoubleBuffer;
 
+import org.lwjgl.BufferUtils;
+
+import org.lwjgl.opencl.CL;
+
+import smartfps.main.math.Vector3;
 import smartfps.player.Player;
 
 public class Main {
 	
 	/**
 	 * 
-	 * Time between frames (nanoseconds)
+	 * Time between frames (milliseconds)
 	 * 
 	 */
 	public static int delta;
@@ -21,7 +27,7 @@ public class Main {
 	 * Camera Position
 	 * 
 	 */
-	static float[] cameraPosition;
+	static Vector3 cameraPosition;
 	
 	/**
 	 * 
@@ -36,6 +42,12 @@ public class Main {
 	
 	static State state = State.HOME_SCREEN;
 	
+	//mouse positions
+	static DoubleBuffer mousex;
+	static DoubleBuffer mousey;
+	static DoubleBuffer lastx;
+	static DoubleBuffer lasty;
+	
 	public static void main(String[] args) {
 		
 		//initialize GLFW
@@ -43,7 +55,7 @@ public class Main {
 			System.exit(0);
 		}
 		
-		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+		glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 		
 		//create window
@@ -57,18 +69,37 @@ public class Main {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ZERO);
 		
+		//Mouse setup
+		mousex = BufferUtils.createDoubleBuffer(1);
+		mousey = BufferUtils.createDoubleBuffer(1);
+		
+		//OpenCL setup
+		try {
+			
+			CL.create();
+			
+		} catch (Exception e) {
+			
+			System.err.println("Hardware does not suport OpenCL");
+
+		}
+		
+		//load OpenCL math
+		
+		
 		//loop
 		while(glfwWindowShouldClose(window) == GL_FALSE) {
 			
 			delta = calculateDelta();
 			
-			if(state == State.GAME) {
-				
-				glfwPollEvents();
+			glfwPollEvents();
+			glfwGetCursorPos(window, mousex, mousex);
 			
-				cameraPosition[0] = player.position.x;
-				cameraPosition[1] = player.position.y + 2;
-				cameraPosition[2] = player.position.z;
+			if(state == State.HOME_SCREEN) {
+				
+				homeLoop();
+				
+			} else if(state == State.GAME) {
 				
 				gameLoop();
 				
@@ -82,10 +113,11 @@ public class Main {
 
 	}
 	
+	private static long lastFrame;
+	
 	static int calculateDelta() {
 		
-		long time = System.nanoTime();
-		long lastFrame = 0;
+		long time = System.currentTimeMillis();
 		delta = (int) (time - lastFrame);
 		lastFrame = time;
 		
@@ -93,7 +125,7 @@ public class Main {
 		
 	}
 	
-	public static void sync(int framerate) {
+	static void sync(int framerate) {
 		
 		//get framerate in milliseconds
 		float time = (1 / framerate) * 1000;
@@ -109,9 +141,28 @@ public class Main {
 		
 	}
 	
+	private static void homeLoop() {
+		
+		
+		
+	}
+	
 	private static void gameLoop() {
 		
+		cameraPosition.x = player.position.x;
+		cameraPosition.y = player.position.y + 1;
+		cameraPosition.z = player.position.z;
 		
+		int differencex = (int) Math.floor(mousex.get(0) - lastx.get(0));
+		int differencey = (int) Math.floor(mousey.get(0) - lasty.get(0));
+		
+		lastx = mousex;
+		lasty = mousey;
+
+		player.perspective = Vector3.rotateY(differencex, player.perspective);
+		player.perspective = Vector3.rotateX(differencey, player.perspective);
+		glRotated(differencex, 0, 1, 0);
+		glRotated(differencey, 1, 0, 0);
 		
 	}
 	
